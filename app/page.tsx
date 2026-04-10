@@ -258,7 +258,7 @@ export default function Home() {
                   
                   {/* Icon Container */}
                   <div 
-                    className="relative z-10 w-12 h-12 flex items-center justify-center text-foreground/30 group-hover:text-primary transition-all duration-500 grayscale group-hover:grayscale-0 transform group-hover:scale-110"
+                    className="relative z-10 w-18 h-10 flex items-center justify-center text-foreground/30 group-hover:text-primary transition-all duration-500 grayscale group-hover:grayscale-0 transform group-hover:scale-110"
                     dangerouslySetInnerHTML={{ __html: skill.icon }} 
                   />
                   
