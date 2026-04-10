@@ -12,40 +12,7 @@ export const metadata: Metadata = {
   description: "Deep dive technical case studies on scalable backend architecture, Redis, MongoDB, and full-stack product development.",
 };
 
-const CASE_STUDIES = [
-  {
-    id: "redis-scaling-srimaccafes",
-    title: "Scaling to 10x Traffic with Redis",
-    category: "Backend Architecture",
-    readTime: "8 min read",
-    summary: "How I used Redis caching to reduce MongoDB read load by 80% on Srimaccafes, cutting average API response time from 240ms to 12ms.",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=900&q=80",
-  },
-  {
-    id: "end-to-end-encryption-patterns",
-    title: "End-to-End Encryption Without a Key Server",
-    category: "Security Engineering",
-    readTime: "12 min read",
-    summary: "A deep dive into implementing client-side AES-256-GCM encryption using PBKDF2 key derivation — with zero plaintext in the database.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=900&q=80",
-  },
-  {
-    id: "razorpay-webhook-reliability",
-    title: "Bulletproof Razorpay Webhooks",
-    category: "Payment Systems",
-    readTime: "6 min read",
-    summary: "Building idempotent payment webhook handlers that survive network retries, race conditions, and duplicate delivery with MongoDB change streams.",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80",
-  },
-  {
-    id: "next-js-performance-patterns",
-    title: "Next.js Performance Patterns for E-commerce",
-    category: "Frontend Architecture",
-    readTime: "10 min read",
-    summary: "Applying ISR, streaming SSR, and advanced image optimization in Next.js to achieve sub-1.2s LCP on a product catalog with 500+ SKUs.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80",
-  },
-];
+import { CASE_STUDIES } from "@/app/data/case-studies";
 
 export default function CaseStudiesPage() {
   const [featured, ...rest] = CASE_STUDIES;
@@ -87,7 +54,9 @@ export default function CaseStudiesPage() {
                   </span>
                 </div>
                 <h2 className="font-display text-3xl md:text-4xl font-black tracking-tighter mb-5 leading-tight">{featured.title}</h2>
-                <p className="font-body text-foreground/65 leading-relaxed mb-8">{featured.summary}</p>
+                <p className="text-foreground/55 font-body text-balance mb-8 line-clamp-2 md:line-clamp-none">
+                  {featured.description}
+                </p>
                 <span className="inline-flex items-center gap-2 font-display font-bold text-[10px] uppercase tracking-widest text-primary group-hover:gap-4 transition-all">
                   Read Case Study <ArrowRight size={14} />
                 </span>
@@ -115,7 +84,7 @@ export default function CaseStudiesPage() {
                     </span>
                   </div>
                   <h3 className="font-display text-xl font-black tracking-tighter mb-3 leading-tight group-hover:text-primary transition-colors">{cs.title}</h3>
-                  <p className="font-body text-sm text-foreground/55 leading-relaxed">{cs.summary}</p>
+                  <p className="font-body text-sm text-foreground/55 leading-relaxed">{cs.description}</p>
                   <div className="mt-6 flex items-center gap-2 font-display font-bold text-[9px] uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                     Read More <ArrowRight size={12} />
                   </div>

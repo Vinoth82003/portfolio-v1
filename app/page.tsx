@@ -23,43 +23,8 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const PROJECTS = [
-  {
-    id: "srimaccafes",
-    title: "Srimaccafes",
-    type: "Full-Stack E-commerce",
-    desc: "Modern e-commerce platform with Razorpay, Redis caching, and a complete admin panel.",
-    tech: ["Next.js", "Node.js", "MongoDB", "Redis"],
-    link: "https://www.srimaccafes.in/",
-    image: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80",
-    accent: "primary",
-  },
-  {
-    id: "my-data-manager",
-    title: "My Data Manager",
-    type: "Secure Data System",
-    desc: "Centralized and encrypted personal data management with CLI-based project management.",
-    tech: ["Next.js", "Node.js", "MongoDB", "Crypto"],
-    link: "https://mydata-xi.vercel.app/",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
-    accent: "secondary",
-  },
-  {
-    id: "share-me",
-    title: "Share Me",
-    type: "Instant Sharing",
-    desc: "Minimal, no-signup platform for encrypted file sharing using 4-digit codes.",
-    tech: ["Next.js", "Node.js", "MongoDB"],
-    link: "https://shareall.vercel.app/",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
-    accent: "accent",
-  },
-];
-
-const SKILLS = [
-  "Next.js", "React", "Node.js", "MongoDB", "Redis", "TypeScript",
-  "SAP ABAP", "Tailwind", "Git", "Framer Motion", "Zod", "Docker",
-];
+import { PROJECTS } from "@/app/data/projects";
+import { SKILLS } from "@/app/data/skills";
 
 const EXPERIENCE = [
   {
@@ -213,7 +178,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROJECTS.map((proj, i) => (
               <motion.div
-                key={proj.title}
+                key={proj.id}
                 custom={i}
                 variants={fadeUp}
                 initial="hidden"
@@ -252,7 +217,7 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-foreground/55 leading-relaxed font-body">{proj.desc}</p>
+                  <p className="text-foreground/55 leading-relaxed font-body">{proj.description}</p>
                 </Link>
               </motion.div>
             ))}
@@ -279,17 +244,30 @@ export default function Home() {
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {SKILLS.map((skill, i) => (
                 <motion.div
-                  key={skill}
+                  key={skill.name}
                   custom={i}
                   variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  whileHover={{ y: -4, scale: 1.04 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="bg-background py-7 px-4 rounded-xl border border-outline/10 text-center hover:border-primary/30 hover:shadow-[0_0_30px_-10px_var(--primary)] transition-all"
+                  className="group relative bg-background/50 hover:bg-background py-8 px-4 rounded-xl border border-outline/10 text-center hover:border-primary/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] transition-all flex flex-col items-center gap-6 overflow-hidden"
                 >
-                  <p className="font-display font-bold tracking-widest text-xs uppercase">{skill}</p>
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Icon Container */}
+                  <div 
+                    className="relative z-10 w-12 h-12 flex items-center justify-center text-foreground/30 group-hover:text-primary transition-all duration-500 grayscale group-hover:grayscale-0 transform group-hover:scale-110"
+                    dangerouslySetInnerHTML={{ __html: skill.icon }} 
+                  />
+                  
+                  <div className="relative z-10 flex flex-col gap-1">
+                    <p className="font-display font-bold tracking-[0.2em] text-[10px] uppercase text-foreground/50 group-hover:text-foreground transition-colors duration-300">
+                      {skill.name}
+                    </p>
+                    <span className="h-0.5 w-0 group-hover:w-full bg-primary/30 mx-auto transition-all duration-500" />
+                  </div>
                 </motion.div>
               ))}
             </div>

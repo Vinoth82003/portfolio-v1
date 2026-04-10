@@ -11,49 +11,7 @@ export const metadata: Metadata = {
   description: "Explore the full portfolio of projects built by Vinoth S – full stack web applications with modern architecture.",
 };
 
-// Static project data (seeded from Stitch content)
-const PROJECTS = [
-  {
-    id: "srimaccafes",
-    title: "Srimaccafes",
-    type: "Full-Stack E-commerce",
-    year: "2024",
-    desc: "Modern e-commerce platform for a specialty coffee brand, featuring Razorpay payment integration, Redis caching for performance, and a complete admin panel for content management.",
-    tech: ["Next.js", "Node.js", "MongoDB", "Redis", "Razorpay", "Cloudinary"],
-    link: "https://www.srimaccafes.in/",
-    image: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1200&q=80",
-  },
-  {
-    id: "my-data-manager",
-    title: "My Data Manager",
-    type: "Secure Data System",
-    year: "2024",
-    desc: "Centralized and encrypted personal data management platform. Allows users to securely store credentials, notes, and files with end-to-end encryption and a CLI-based project management interface.",
-    tech: ["Next.js", "Node.js", "MongoDB", "Crypto", "TypeScript"],
-    link: "https://mydata-xi.vercel.app/",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80",
-  },
-  {
-    id: "share-me",
-    title: "Share Me",
-    type: "Instant Sharing",
-    year: "2023",
-    desc: "Minimal, no-signup platform for encrypted file and text sharing using 4-digit codes. Built for speed and privacy — content auto-expires after retrieval.",
-    tech: ["Next.js", "Node.js", "MongoDB"],
-    link: "https://shareall.vercel.app/",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80",
-  },
-  {
-    id: "redis-cache-api",
-    title: "Redis Cache API",
-    type: "Backend Infrastructure",
-    year: "2024",
-    desc: "High-performance caching layer built on Redis, dramatically reducing database read times and enabling scalable API responses for high-traffic scenarios.",
-    tech: ["Node.js", "Redis", "Express", "TypeScript"],
-    link: "https://github.com/Vinoth82003",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&q=80",
-  },
-];
+import { PROJECTS } from "@/app/data/projects";
 
 export default function ProjectsPage() {
   return (
@@ -114,7 +72,7 @@ export default function ProjectsPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-foreground/55 leading-relaxed font-body text-sm">{proj.desc}</p>
+                <p className="text-foreground/55 leading-relaxed font-body text-sm">{proj.description}</p>
               </Link>
             ))}
           </div>

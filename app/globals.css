@@ -104,4 +104,26 @@ body {
      background: rgba(255, 255, 255, 0.6);
   }
 }
+/* Skill Icon Enhancements */
+.skill-img {
+  max-width: 100%;
+  max-height: 100%;
+  filter: grayscale(1);
+  transition: all 0.5s ease;
+}
 
+.group:hover .skill-img {
+  filter: grayscale(0);
+}
+
+.dark .skill-img:not(.no-filter) {
+  filter: grayscale(1) invert(0.8) brightness(1.2);
+}
+
+.dark .group:hover .skill-img:not(.no-filter) {
+  filter: grayscale(0) invert(0) brightness(1);
+}
+
+.no-filter {
+  filter: none !important;
+}
