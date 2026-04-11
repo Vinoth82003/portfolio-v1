@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { seedAdmin } from "./seedAdmin";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -29,6 +30,10 @@ async function connectToDatabase() {
     });
   }
   cached.conn = await cached.promise;
+  
+  // Seed admin account
+  await seedAdmin();
+  
   return cached.conn;
 }
 
