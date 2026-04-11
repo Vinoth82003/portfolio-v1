@@ -14,8 +14,13 @@ interface Message {
   _id: string;
   name: string;
   email: string;
+  company?: string;
+  meetingType?: string;
+  duration?: string;
+  date?: string;
+  time?: string;
   subject?: string;
-  message: string;
+  message?: string;
   status: "UNREAD" | "READ" | "ARCHIVED";
   createdAt: string;
 }
@@ -95,9 +100,27 @@ export default function MessageList({ initialMessages }: { initialMessages: any[
                     </div>
                   </div>
                   
-                  <div className="pl-14 space-y-2">
-                    <p className="text-sm font-display font-bold text-primary uppercase tracking-wider">{msg.subject || "No Subject"}</p>
-                    <p className="text-foreground/70 font-body leading-relaxed max-w-3xl">{msg.message}</p>
+                  <div className="pl-14 space-y-3">
+                    <div className="flex gap-2 items-center flex-wrap">
+                      <p className="text-sm font-display font-bold text-primary uppercase tracking-wider">
+                        {msg.meetingType || msg.subject || "Contact Inquiry"}
+                      </p>
+                      {(msg.date && msg.time) && (
+                        <span className="px-2 py-1 bg-surface-lowest border border-outline/10 rounded-md text-[9px] font-display text-secondary font-bold uppercase tracking-widest">
+                          {msg.date} at {msg.time} ({msg.duration})
+                        </span>
+                      )}
+                      {msg.company && (
+                        <span className="px-2 py-1 bg-surface-lowest border border-outline/10 rounded-md text-[9px] font-display text-foreground/50 font-bold uppercase tracking-widest">
+                          {msg.company}
+                        </span>
+                      )}
+                    </div>
+                    {msg.message ? (
+                      <p className="text-foreground/70 font-body leading-relaxed max-w-3xl">{msg.message}</p>
+                    ) : (
+                      <p className="text-foreground/30 font-body italic text-sm">No additional message provided.</p>
+                    )}
                   </div>
                 </div>
 

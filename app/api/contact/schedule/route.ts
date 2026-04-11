@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { createEvent } from "ics";
+import connectToDatabase from "@/lib/db/mongodb";
+import ContactMessage from "@/models/ContactMessage";
 
 interface SchedulePayload {
   name: string;
@@ -107,6 +109,19 @@ export async function POST(req: NextRequest) {
   `;
 
   try {
+    // Save to Database
+    await connectToDatabase();
+    await ContactMessage.create({
+      name,
+      email,
+      company,
+      meetingType,
+      duration,
+      date,
+      time,
+      message: message || undefined,
+    });
+
     // Send to attendee
     await transporter.sendMail({
       from: `"Vinoth S — Digital Architect" <${process.env.SMTP_USER}>`,
