@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import GlassCard from "@/components/GlassCard";
 import ParticleBackground from "@/components/ParticleBackground";
 import { toast } from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -83,10 +84,19 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full rounded-lg bg-pink-500 py-3 font-semibold text-white hover:bg-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden"
+              className="w-full rounded-lg bg-pink-500 py-3 font-semibold text-white hover:bg-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden flex items-center justify-center gap-2"
             >
-              <span className="relative z-10">{isLoading ? "Signing in..." : "Sign In"}</span>
-              <div className="absolute inset-0 translate-y-[100%] bg-white/10 transition-transform group-hover:translate-y-0" />
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <span className="relative z-10">Sign In</span>
+                  <div className="absolute inset-0 translate-y-[100%] bg-white/10 transition-transform group-hover:translate-y-0" />
+                </>
+              )}
             </button>
           </form>
         </GlassCard>

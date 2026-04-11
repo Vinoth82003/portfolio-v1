@@ -9,11 +9,17 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  await connectToDatabase();
-  const body = await req.json();
-  if (!body.title || !body.content) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-  const cs = await CaseStudy.create(body);
-  return NextResponse.json({ caseStudy: cs }, { status: 201 });
+  try {
+    await connectToDatabase();
+    const body = await req.json();
+    if (!body.title || !body.id) {
+      return NextResponse.json({ error: "Title and Slug ID are required" }, { status: 400 });
+    }
+    const cs = await CaseStudy.create(body);
+    return NextResponse.json({ caseStudy: cs }, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
 
 export async function PUT(req: NextRequest) {

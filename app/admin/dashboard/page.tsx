@@ -1,66 +1,107 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import { Suspense } from "react";
+import connectToDatabase from "@/lib/db/mongodb";
+import CaseStudy from "@/models/CaseStudy";
+import Blog from "@/models/Blog";
+import ContactMessage from "@/models/ContactMessage";
+import Experience from "@/models/Experience";
+import Skill from "@/models/Skill";
+import Project from "@/models/Project";
 import GlassCard from "@/components/GlassCard";
-import Navbar from "@/components/Navbar";
-import { toast } from "react-hot-toast";
+import { MessageSquare, FolderKanban, Briefcase, Code2, TrendingUp, BookOpen, Search } from "lucide-react";
+import { StatCardSkeleton } from "@/components/admin/AdminSkeleton";
 
-export default function AdminDashboard() {
-  const router = useRouter();
+async function StatsContent() {
+  await connectToDatabase();
+  
+  const [projectCount, blogCount, caseStudyCount, messageCount, unreadMessages, experienceCount, skillCount] = await Promise.all([
+    Project.countDocuments(),
+    Blog.countDocuments(),
+    CaseStudy.countDocuments(),
+    ContactMessage.countDocuments(),
+    ContactMessage.countDocuments({ status: "UNREAD" }),
+    Experience.countDocuments(),
+    Skill.countDocuments(),
+  ]);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/auth/logout", {
-        method: "POST",
-      });
-
-      if (response.ok) {
-        toast.success("Logged out successfully");
-        router.push("/admin/login");
-      }
-    } catch (error) {
-      toast.error("Logout failed");
-    }
-  };
+  const statCards = [
+    { title: "Projects", value: projectCount, icon: FolderKanban, color: "primary" },
+    { title: "Blogs", value: blogCount, icon: BookOpen, color: "secondary" },
+    { title: "Case Studies", value: caseStudyCount, icon: Search, color: "accent" },
+    { title: "Skills", value: skillCount, icon: Code2, color: "primary" },
+    { title: "Messages", value: unreadMessages, icon: MessageSquare, color: "secondary" },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
-      <Navbar />
-      
-      <main className="container mx-auto px-4 pt-24 pb-12">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            <p className="text-zinc-400">Welcome back, Admin</p>
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      {statCards.map((stat) => (
+        <GlassCard key={stat.title} hoverEffect glowColor={stat.color as any}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-surface-high rounded-lg text-primary">
+              <stat.icon size={24} />
+            </div>
+            <TrendingUp size={16} className="text-success" />
           </div>
-          <button
-            onClick={handleLogout}
-            className="rounded-lg bg-red-500/10 px-4 py-2 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all"
-          >
-            Logout
-          </button>
-        </div>
+          <p className="text-xs font-display font-bold uppercase tracking-widest text-foreground/40 mb-1">
+            {stat.title}
+          </p>
+          <p className="text-4xl font-display font-black tracking-tight">{stat.value}</p>
+        </GlassCard>
+      ))}
+    </div>
+  );
+}
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <GlassCard className="flex flex-col items-center justify-center p-8 text-center" hoverEffect glowColor="primary">
-            <h2 className="text-xl font-semibold mb-2">Projects</h2>
-            <p className="text-zinc-500 mb-6 font-mono">Coming Soon</p>
-            <button className="rounded-full bg-zinc-800 px-6 py-2 text-sm hover:bg-zinc-700 transition-all">Manage</button>
-          </GlassCard>
+function DashboardSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <StatCardSkeleton />
+      <StatCardSkeleton />
+      <StatCardSkeleton />
+      <StatCardSkeleton />
+      <StatCardSkeleton />
+    </div>
+  );
+}
 
-          <GlassCard className="flex flex-col items-center justify-center p-8 text-center" hoverEffect glowColor="secondary">
-            <h2 className="text-xl font-semibold mb-2">Blogs</h2>
-            <p className="text-zinc-500 mb-6 font-mono">Coming Soon</p>
-            <button className="rounded-full bg-zinc-800 px-6 py-2 text-sm hover:bg-zinc-700 transition-all">Manage</button>
-          </GlassCard>
+export default function AdminDashboard() {
+  return (
+    <div className="space-y-12">
+      <header>
+        <h1 className="font-display text-4xl font-black tracking-tighter mb-2">System Overview</h1>
+        <p className="text-foreground/50 font-body">Real-time status of your digital environment.</p>
+      </header>
 
-          <GlassCard className="flex flex-col items-center justify-center p-8 text-center" hoverEffect glowColor="accent">
-            <h2 className="text-xl font-semibold mb-2">Settings</h2>
-            <p className="text-zinc-500 mb-6 font-mono">Coming Soon</p>
-            <button className="rounded-full bg-zinc-800 px-6 py-2 text-sm hover:bg-zinc-700 transition-all">Manage</button>
-          </GlassCard>
-        </div>
-      </main>
+      <Suspense fallback={<DashboardSkeleton />}>
+        <StatsContent />
+      </Suspense>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <GlassCard className="h-[400px]">
+          <h3 className="font-display font-bold text-lg mb-6">Recent Activity</h3>
+          <div className="flex flex-col items-center justify-center h-full text-foreground/30">
+            <TrendingUp size={48} className="mb-4 opacity-10" />
+            <p className="font-display text-xs uppercase tracking-widest">Coming Soon: Activity Timeline</p>
+          </div>
+        </GlassCard>
+
+        <GlassCard className="h-[400px]">
+          <h3 className="font-display font-bold text-lg mb-6">System Health</h3>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-body text-foreground/60">Database Connection</span>
+              <span className="text-xs font-bold text-green-500 uppercase tracking-widest">Active</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-body text-foreground/60">Cloudinary API</span>
+              <span className="text-xs font-bold text-green-500 uppercase tracking-widest">Connected</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-body text-foreground/60">Redis Cache</span>
+              <span className="text-xs font-bold text-green-500 uppercase tracking-widest">Operational</span>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
     </div>
   );
 }

@@ -12,10 +12,25 @@ export const metadata: Metadata = {
   description: "Deep dive technical case studies on scalable backend architecture, Redis, MongoDB, and full-stack product development.",
 };
 
-import { CASE_STUDIES } from "@/app/data/case-studies";
+import { getCaseStudies } from "@/lib/actions/case-studies";
 
-export default function CaseStudiesPage() {
-  const [featured, ...rest] = CASE_STUDIES;
+export default async function CaseStudiesPage() {
+  const caseStudies = await getCaseStudies() as any[];
+  
+  if (caseStudies.length === 0) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="pt-28 pb-28 text-center">
+          <p className="font-display text-xs uppercase tracking-widest text-foreground/40 mb-4">No case studies found</p>
+          <Link href="/" className="text-primary font-display font-bold text-xs uppercase tracking-widest">Return Home</Link>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const [featured, ...rest] = caseStudies;
 
   return (
     <div className="min-h-screen">

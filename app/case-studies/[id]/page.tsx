@@ -7,24 +7,28 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlassCard from "@/components/GlassCard";
 import BuildCTA from "@/components/BuildCTA";
-import { CASE_STUDIES } from "@/app/data/case-studies";
+import { getCaseStudies, getCaseStudyById } from "@/lib/actions/case-studies";
 
 export async function generateStaticParams() {
-  return CASE_STUDIES.map((cs) => ({ id: cs.id }));
+  const caseStudies = await getCaseStudies();
+  return caseStudies.map((cs: any) => ({ id: cs.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const cs = CASE_STUDIES.find(c => c.id === id);
+  const cs = await getCaseStudyById(id);
   if (!cs) return { title: "Project Not Found" };
   return { title: `${cs.title} | Vinoth S`, description: cs.description };
 }
 
 export default async function CaseStudyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const cs = CASE_STUDIES.find(c => c.id === id);
+  const cs = await getCaseStudyById(id) as any;
   if (!cs) notFound();
-  const related = cs.relatedIds ? cs.relatedIds.map((rid) => CASE_STUDIES.find(c => c.id === rid)).filter((c): c is NonNullable<typeof c> => !!c) : [];
+
+  // Fetch all to find related
+  const allStudies = await getCaseStudies();
+  const related = cs.relatedIds ? cs.relatedIds.map((rid: string) => allStudies.find(c => c.id === rid)).filter((c: any): c is NonNullable<any> => !!c) : [];
 
   return (
     <div className="min-h-screen">
@@ -64,7 +68,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
                 <p className="font-body text-lg text-foreground/75 leading-relaxed">{cs.description}</p>
               </GlassCard>
 
-              {cs.sections && cs.sections.map((sec) => (
+              {cs.sections && cs.sections.map((sec: any) => (
                 <div key={sec.heading}>
                   <h2 className="font-display text-2xl font-black tracking-tighter mb-5">{sec.heading}</h2>
                   <p className="font-body text-foreground/70 leading-relaxed text-[1.0625rem] mb-6">{sec.content}</p>
@@ -81,7 +85,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
                 <div>
                   <h2 className="font-display text-2xl font-black tracking-tighter mb-8">Results & Outcomes</h2>
                   <div className="space-y-4">
-                    {cs.outcome.map((item, i) => (
+                    {cs.outcome.map((item: string, i: number) => (
                       <div key={i} className="flex gap-4 items-start">
                         <span className="flex-shrink-0 w-6 h-6 bg-primary/15 rounded-full flex items-center justify-center text-primary font-display font-black text-[10px] mt-0.5">
                           {i + 1}
@@ -106,7 +110,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
                 <GlassCard>
                   <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/35 font-bold mb-6">Related Case Studies</p>
                   <div className="space-y-5">
-                    {related.map((r) => (
+                    {related.map((r: any) => (
                       <Link key={r.id} href={`/case-studies/${r.id}`} className="flex items-start gap-3 group">
                         <div className="relative w-14 h-14 rounded-lg overflow-hidden border border-outline/10 flex-shrink-0">
                           <Image src={r.image} alt={r.title} fill className="object-cover" />
