@@ -11,6 +11,7 @@ import BuildCTA from "@/components/BuildCTA";
 import { getBlogs, getBlogById } from "@/lib/actions/blogs";
 import BlogShare from "@/components/BlogShare";
 import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
+import CommentSection from "@/components/CommentSection";
 
 export async function generateStaticParams() {
   const blogs = await getBlogs();
@@ -87,6 +88,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
             {/* Article Body */}
             <article className="max-w-none">
               <MarkdownRenderer content={blog.content} />
+              
+              <CommentSection blogId={blog.slug || blog.id} />
             </article>
 
             {/* Sidebar */}
