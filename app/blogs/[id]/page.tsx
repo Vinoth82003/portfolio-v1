@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, CalendarDays } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,6 +10,7 @@ import GlassCard from "@/components/GlassCard";
 import BuildCTA from "@/components/BuildCTA";
 import { getBlogs, getBlogById } from "@/lib/actions/blogs";
 import BlogShare from "@/components/BlogShare";
+import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
 
 export async function generateStaticParams() {
   const blogs = await getBlogs();
@@ -86,21 +85,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-16 lg:gap-24">
             {/* Article Body */}
-            <article className="prose prose-invert prose-lg max-w-none font-body leading-relaxed text-foreground/80
-              prose-headings:font-display prose-headings:font-black prose-headings:tracking-tight prose-headings:text-foreground
-              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-              prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-              prose-p:mb-6
-              prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-foreground/90 prose-strong:font-bold
-              prose-code:text-secondary prose-code:bg-surface-low prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-              prose-pre:bg-surface-lowest prose-pre:border prose-pre:border-outline/10 prose-pre:p-6
-              prose-li:marker:text-primary
-              prose-blockquote:border-l-primary prose-blockquote:bg-surface-low prose-blockquote:px-6 prose-blockquote:py-2 prose-blockquote:rounded-r-lg prose-blockquote:font-style-normal
-              ">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {blog.content}
-              </ReactMarkdown>
+            <article className="max-w-none">
+              <MarkdownRenderer content={blog.content} />
             </article>
 
             {/* Sidebar */}
@@ -113,7 +99,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
               <GlassCard>
                 <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/35 font-bold mb-6">Let's Connect</p>
                 <p className="font-body text-sm text-foreground/55 mb-6 leading-relaxed">Want to discuss this architecture or bring similar tech to your product?</p>
-                <BuildCTA text="Start a Conversation" href="/contact" className="w-full text-center" />
+                <BuildCTA text="Start Conversation" href="/contact" className="w-full text-center" />
               </GlassCard>
 
               {related.length > 0 && (
