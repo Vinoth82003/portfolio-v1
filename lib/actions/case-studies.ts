@@ -6,15 +6,16 @@ import { revalidatePath } from "next/cache";
 
 export async function getCaseStudies() {
   await connectToDatabase();
-  return await CaseStudy.find().sort({ createdAt: -1 }).lean();
+  const res = await CaseStudy.find().sort({ createdAt: -1 }).lean();
+  return JSON.parse(JSON.stringify(res));
 }
 
 export async function getCaseStudyById(id: string) {
   await connectToDatabase();
-  // Support both Mongo ID and Slug
-  return await CaseStudy.findOne({ 
+  const doc = await CaseStudy.findOne({
     $or: [{ id: id }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : undefined }]
   }).lean();
+  return doc ? JSON.parse(JSON.stringify(doc)) : null;
 }
 
 export async function createCaseStudy(data: any) {

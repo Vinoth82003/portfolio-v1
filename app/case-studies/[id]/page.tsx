@@ -28,7 +28,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
 
   // Fetch all to find related
   const allStudies = await getCaseStudies();
-  const related = cs.relatedIds ? cs.relatedIds.map((rid: string) => allStudies.find(c => c.id === rid)).filter((c: any): c is NonNullable<any> => !!c) : [];
+  const related = cs.relatedIds ? cs.relatedIds.map((rid: string) => allStudies.find((c: any) => c.id === rid)).filter((c: any): c is NonNullable<any> => !!c) : [];
 
   return (
     <div className="min-h-screen">
@@ -67,7 +67,12 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
                 <p className="font-display text-[10px] uppercase tracking-[0.3em] text-secondary font-bold mb-4">TL;DR</p>
                 <p className="font-body text-lg text-foreground/75 leading-relaxed">{cs.description}</p>
               </GlassCard>
-
+              {/* Image if exists */}
+              {cs.image && (
+                <div className="relative h-[55vh] overflow-hidden">
+                  <Image src={cs.image} alt={cs.title} fill className="object-cover border border-outline/10 rounded-xl" priority />
+                </div>
+              )}
               {cs.sections && cs.sections.map((sec: any) => (
                 <div key={sec.heading}>
                   <h2 className="font-display text-2xl font-black tracking-tighter mb-5">{sec.heading}</h2>

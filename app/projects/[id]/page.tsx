@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const proj = await getProjectById(id);
   if (!proj) return { title: "Project Not Found" };
-  return { title: `${proj.title} | Vinoth S`, description: proj.desc };
+  return { title: `${proj.title} | Vinoth S`, description: proj.description };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -34,10 +34,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         {/* Hero */}
         <div className="relative h-[60vh] overflow-hidden">
           <Image src={proj.image} alt={proj.title} fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/20 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/60 to-background" />
           <div className="absolute inset-0 flex flex-col justify-end px-6 md:px-16 pb-16 max-w-7xl mx-auto">
             <p className="font-display text-primary uppercase tracking-[0.35em] text-xs font-bold mb-4">{proj.type}</p>
             <h1 className="font-display text-5xl md:text-8xl font-black tracking-tighter mb-6">{proj.title}</h1>
+            <p className="font-display text-foreground/75 text-sm italic font-bold mb-4">{proj.description}</p>
           </div>
         </div>
 
@@ -65,17 +66,24 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 pt-16">
             {/* Main content */}
             <div className="lg:col-span-2 space-y-16">
+              {/* Overview section */}
               <div>
                 <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/35 font-bold mb-5">Overview</p>
-                <p className="font-body text-lg text-foreground/75 leading-relaxed">{proj.desc}</p>
+                <p className="font-body text-lg text-foreground/75 leading-relaxed">{proj.overview}</p>
               </div>
-              
+              {/* Solution section */}
               <GlassCard className="border-secondary/20">
-                <p className="font-display text-[10px] uppercase tracking-[0.3em] text-secondary font-bold mb-5">Project Details</p>
+                <p className="font-display text-[10px] uppercase tracking-[0.3em] text-secondary font-bold mb-5">Project Solution</p>
                 <div className="prose prose-invert max-w-none font-body text-lg text-foreground/75 leading-relaxed whitespace-pre-wrap">
-                  {proj.content}
+                  {proj.solution}
                 </div>
               </GlassCard>
+              {/* Outcome section */}
+              <div>
+                <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/45 font-bold mb-5">Outcome</p>
+                <p className="font-body text-lg text-foreground/75 leading-relaxed">{proj.outcome}</p>
+              </div>
+
             </div>
 
             {/* Sidebar */}

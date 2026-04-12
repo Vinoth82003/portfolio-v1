@@ -13,8 +13,9 @@ export async function getExperiences() {
   await connectToDatabase();
   const experiences = await Experience.find().sort({ createdAt: -1 }).lean();
   
-  await setCache(cacheKey, experiences, 3600);
-  return experiences;
+  const serialized = JSON.parse(JSON.stringify(experiences));
+  await setCache(cacheKey, serialized, 3600);
+  return serialized;
 }
 
 export async function createExperience(data: any) {

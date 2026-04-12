@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Deep dive technical case studies on scalable backend architecture, Redis, MongoDB, and full-stack product development.",
 };
 
+export const dynamic = "force-dynamic";
+
 import { getCaseStudies } from "@/lib/actions/case-studies";
 
 export default async function CaseStudiesPage() {

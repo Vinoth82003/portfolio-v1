@@ -13,8 +13,9 @@ export async function getSkills() {
   await connectToDatabase();
   const skills = await Skill.find().sort({ category: 1, name: 1 }).lean();
   
-  await setCache(cacheKey, skills, 3600);
-  return skills;
+  const serialized = JSON.parse(JSON.stringify(skills));
+  await setCache(cacheKey, serialized, 3600);
+  return serialized;
 }
 
 export async function createSkill(data: any) {

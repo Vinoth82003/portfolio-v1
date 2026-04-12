@@ -6,7 +6,22 @@ if (!REDIS_URI) {
   console.warn("REDIS_URI not found in environment variables. Caching will be disabled.");
 }
 
-const redis = REDIS_URI ? new Redis(REDIS_URI) : null;
+let redis: Redis | null = null;
+
+if (REDIS_URI) {
+  const globalRedis = (global as any).__redis;
+  if (globalRedis) {
+    redis = globalRedis;
+  } else {
+    redis = new Redis(REDIS_URI, {
+      maxRetriesPerRequest: 3,
+      retryStrategy(times) {
+        return Math.min(times * 200, 2000);
+      },
+    });
+    (global as any).__redis = redis;
+  }
+}
 
 export async function getCache<T>(key: string): Promise<T | null> {
   if (!redis) return null;
