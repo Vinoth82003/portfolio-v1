@@ -33,7 +33,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       <main className="pt-20">
         {/* Hero */}
         <div className="relative h-[60vh] overflow-hidden">
-          <Image src={proj.image} alt={proj.title} fill className="object-cover" priority />
+          <Image src={proj.image} alt={proj.title} fill sizes="100vw" className="object-cover" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/60 to-background" />
           <div className="absolute inset-0 flex flex-col justify-end px-6 md:px-16 pb-16 max-w-7xl mx-auto">
             <p className="font-display text-primary uppercase tracking-[0.35em] text-xs font-bold mb-4">{proj.type}</p>
@@ -87,7 +87,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             </div>
 
             {/* Sidebar */}
-            <aside className="space-y-8">
+            <aside className="space-y-8 lg:sticky lg:top-28 h-fit">
               <GlassCard>
                 <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/35 font-bold mb-6">Tech Stack</p>
                 <div className="flex flex-wrap gap-2">

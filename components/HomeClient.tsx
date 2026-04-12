@@ -117,7 +117,7 @@ export default function HomeClient({
               <motion.div key={proj._id} custom={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="group">
                 <Link href={`/projects/${proj._id}`}>
                   <div className="relative h-[400px] w-full mb-6 rounded-2xl overflow-hidden border border-outline/10 group-hover:border-outline/30 transition-all">
-                    <Image src={proj.image} alt={proj.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <Image src={proj.image} alt={proj.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                     <div className="absolute bottom-8 left-8 right-8">
                       <p className="text-[10px] uppercase tracking-widest text-foreground/50 font-bold mb-2">{proj.type}</p>

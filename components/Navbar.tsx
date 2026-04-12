@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import BuildCTA from "./BuildCTA";
@@ -11,6 +12,7 @@ import Link from "next/link";
 const navLinks = [
   { name: "Projects", href: "/projects" },
   { name: "Case Studies", href: "/case-studies" },
+  { name: "Blogs", href: "/blogs" },
 ];
 
 export default function Navbar() {
@@ -18,6 +20,7 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
@@ -47,15 +50,20 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8">
-          {navLinks.map((link) => (
+          {navLinks.map((link) => {
+            const isActive = pathname.startsWith(link.href);
+            return (
             <Link
               key={link.name}
               href={link.href}
-              className="font-display text-sm uppercase tracking-widest hover:text-primary transition-colors"
+              className={cn(
+                "font-display text-sm uppercase tracking-widest transition-colors",
+                isActive ? "text-primary font-bold" : "hover:text-primary"
+              )}
             >
               {link.name}
             </Link>
-          ))}
+          )})}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="p-2 rounded-full hover:bg-surface-high transition-colors"
@@ -90,16 +98,21 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             className="absolute top-full left-0 right-0 bg-background border-b border-outline p-6 md:hidden flex flex-col space-y-6 shadow-ambient"
           >
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const isActive = pathname.startsWith(link.href);
+              return (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="font-display text-lg tracking-widest hover:text-primary"
+                className={cn(
+                  "font-display text-lg tracking-widest hover:text-primary",
+                  isActive && "text-primary font-bold"
+                )}
               >
                 {link.name}
               </Link>
-            ))}
+            )})}
             <div className="pt-4 border-t border-outline/20">
               <BuildCTA text="Build Project" className="w-full" />
             </div>

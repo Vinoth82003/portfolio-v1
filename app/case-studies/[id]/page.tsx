@@ -36,7 +36,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
       <main className="pt-20">
         {/* Hero */}
         <div className="relative h-[55vh] overflow-hidden">
-          {cs.heroImage && <Image src={cs.heroImage} alt={cs.title} fill className="object-cover" priority />}
+          {cs.heroImage && <Image src={cs.heroImage} alt={cs.title} fill sizes="100vw" className="object-cover" priority />}
           <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/30 to-background" />
           <div className="absolute inset-0 flex flex-col justify-end px-6 md:px-16 pb-16 max-w-7xl mx-auto">
             <div className="flex items-center gap-4 mb-5">
@@ -70,7 +70,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
               {/* Image if exists */}
               {cs.image && (
                 <div className="relative h-[55vh] overflow-hidden">
-                  <Image src={cs.image} alt={cs.title} fill className="object-cover border border-outline/10 rounded-xl" priority />
+                  <Image src={cs.image} alt={cs.title} fill sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover border border-outline/10 rounded-xl" priority />
                 </div>
               )}
               {cs.sections && cs.sections.map((sec: any) => (
@@ -104,7 +104,7 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
             </article>
 
             {/* Sidebar */}
-            <aside className="space-y-8">
+            <aside className="space-y-8 lg:sticky lg:top-28 h-fit">
               <GlassCard>
                 <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/35 font-bold mb-6">Build Something Similar?</p>
                 <p className="font-body text-sm text-foreground/55 mb-6 leading-relaxed">I'd love to bring this depth of engineering to your project.</p>

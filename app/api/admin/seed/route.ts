@@ -6,6 +6,10 @@ import Skill from "@/models/Skill";
 import { PROJECTS } from "@/app/data/projects";
 import { CASE_STUDIES } from "@/app/data/case-studies";
 import { SKILLS } from "@/app/data/skills";
+import Blog from "@/models/Blog";
+import { BLOGS } from "@/app/data/blogs";
+import { invalidateCache } from "@/lib/redis";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: NextRequest) {
   try {
@@ -68,13 +72,52 @@ export async function GET(req: NextRequest) {
     );
     console.log(`Skills seeded: ${skillResults.length}`);
 
+    // 4. Seed Blogs
+    console.log("Seeding blogs...");
+    const blogResults = await Promise.all(
+      BLOGS.map(async (b: any) => {
+        try {
+          return await Blog.findOneAndUpdate(
+            { id: b.id },
+            { ...b },
+            { upsert: true, new: true, runValidators: true }
+          );
+        } catch (e: any) {
+          console.error(`Error seeding blog ${b.id}:`, e.message);
+          throw e;
+        }
+      })
+    );
+    console.log(`Blogs seeded: ${blogResults.length}`);
+
+    // 5. Invalidate Caches
+    console.log("Invalidating caches...");
+    await Promise.all([
+      invalidateCache("projects_list"),
+      invalidateCache("case_studies_list"),
+      invalidateCache("skills_list"),
+      invalidateCache("blogs_list"),
+      // Also invalidate individual items if they exist
+      ...PROJECTS.map(p => invalidateCache(`project_${p.id}`)),
+      ...CASE_STUDIES.map(cs => invalidateCache(`case_study_${cs.id}`)),
+      ...BLOGS.map(b => invalidateCache(`blog_${b.id}`))
+    ]);
+    console.log("Caches invalidated.");
+
+    // 6. Revalidate frontend paths
+    revalidatePath("/projects");
+    revalidatePath("/case-studies");
+    revalidatePath("/blogs");
+    revalidatePath("/");
+
     return NextResponse.json({
       success: true,
       message: "Seeding completed successfully",
       stats: {
         projects: projectResults.length,
         caseStudies: caseStudyResults.length,
-        skills: skillResults.length
+        skills: skillResults.length,
+        blogs: blogResults.length
       }
     });
 

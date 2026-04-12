@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import ParticleBackground from "@/components/ParticleBackground";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -38,6 +39,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ScrollToTop />
           <ParticleBackground />
           {children}
           <Toaster 
