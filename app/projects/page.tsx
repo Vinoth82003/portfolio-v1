@@ -11,9 +11,11 @@ export const metadata: Metadata = {
   description: "Explore the full portfolio of projects built by Vinoth S – full stack web applications with modern architecture.",
 };
 
-import { PROJECTS } from "@/app/data/projects";
+import { getProjects } from "@/lib/actions/projects";
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const PROJECTS = await getProjects() as any[];
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -64,7 +66,7 @@ export default function ProjectsPage() {
                     </div>
                     <h2 className="font-display text-2xl font-black tracking-tight mb-3">{proj.title}</h2>
                     <div className="flex flex-wrap gap-1.5">
-                      {proj.tech.slice(0, 4).map((t) => (
+                      {proj.tech.slice(0, 4).map((t: string) => (
                         <span key={t} className="text-[9px] uppercase tracking-wider bg-background/80 backdrop-blur px-2 py-1 rounded font-display font-semibold">
                           {t}
                         </span>
