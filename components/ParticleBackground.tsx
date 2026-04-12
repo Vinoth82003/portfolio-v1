@@ -54,7 +54,7 @@ export default function ParticleBackground() {
       if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const color = resolvedTheme === "dark" ? "56, 189, 248" : "37, 99, 235";
+      const color = resolvedTheme === "dark" ? "163, 166, 255" : "37, 99, 235";
       ctx.fillStyle = `rgba(${color}, 0.5)`;
       ctx.strokeStyle = `rgba(${color}, 0.25)`;
 

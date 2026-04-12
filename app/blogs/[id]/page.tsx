@@ -49,15 +49,15 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
             <span className="bg-primary/10 text-primary font-display font-bold text-[9px] uppercase tracking-widest px-3 py-1.5 rounded backdrop-blur-sm">
               {blog.category}
             </span>
-            <span className="flex items-center gap-1.5 font-display text-[9px] uppercase tracking-widest text-foreground/45 font-bold">
+            <span className="flex items-center gap-1.5 font-display text-[9px] uppercase tracking-widest text-foreground/60 font-bold">
               <Clock size={10} /> {blog.readTime}
             </span>
-            <span className="flex items-center gap-1.5 font-display text-[9px] uppercase tracking-widest text-foreground/45 font-bold">
+            <span className="flex items-center gap-1.5 font-display text-[9px] uppercase tracking-widest text-foreground/60 font-bold">
               <CalendarDays size={10} /> {formattedDate}
             </span>
           </div>
           <h1 className="font-display text-4xl md:text-6xl font-black tracking-tighter mb-8">{blog.title}</h1>
-          <p className="font-body text-xl text-foreground/60 leading-relaxed max-w-3xl mx-auto mb-8">
+          <p className="font-body text-xl text-foreground/80 leading-relaxed max-w-3xl mx-auto mb-8">
             {blog.description}
           </p>
           <div className="flex items-center justify-center gap-3">
@@ -98,7 +98,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
 
               <GlassCard>
                 <p className="font-display text-[10px] uppercase tracking-[0.3em] text-foreground/35 font-bold mb-6">Let's Connect</p>
-                <p className="font-body text-sm text-foreground/55 mb-6 leading-relaxed">Want to discuss this architecture or bring similar tech to your product?</p>
+                <p className="font-body text-sm text-foreground/75 mb-6 leading-relaxed">Want to discuss this architecture or bring similar tech to your product?</p>
                 <BuildCTA text="Start Conversation" href="/contact" className="w-full text-center" />
               </GlassCard>
 
@@ -109,7 +109,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
                     {related.map((r: any) => (
                       <Link key={r.id} href={`/blogs/${r.slug || r.id}`} className="flex flex-col gap-2 group">
                         <p className="font-display font-bold text-sm leading-tight group-hover:text-primary transition-colors">{r.title}</p>
-                        <p className="font-display text-[9px] uppercase tracking-widest text-foreground/35">{new Date(r.publishedAt).toLocaleDateString()}</p>
+                        <p className="font-display text-[9px] uppercase tracking-widest text-foreground/50">{new Date(r.publishedAt).toLocaleDateString()}</p>
                       </Link>
                     ))}
                   </div>

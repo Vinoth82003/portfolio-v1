@@ -71,28 +71,28 @@
 }
 
 .dark {
-  /* Noir (Dark) - Deep & Architectural */
-  --background: #050505; /* Almost true black */
-  --foreground: #fafafa; /* zinc-50 */
+  /* Noir (Digital Architect) - Deep & Atmospheric */
+  --background: #060e20;
+  --foreground: #dee5ff;
   
   /* Vibrant Electric Gradients */
-  --primary: #38bdf8; /* sky-400 */
-  --primary-dim: #818cf8; /* indigo-400 */
-  --secondary: #c084fc; /* purple-400 */
-  --accent: #2dd4bf; /* teal-400 */
+  --primary: #a3a6ff;
+  --primary-dim: #6063ee;
+  --secondary: #53ddfc;
+  --accent: #c180ff;
   
-  /* Sleek Surfaces */
-  --surface-lowest: #000000;
-  --surface-low: #121212; /* Neutral dark surface */
-  --surface-high: #1e1e1e;
-  --surface-highest: #27272a;
+  /* Deep Atmospheric Surfaces */
+  --surface-lowest: #020611;
+  --surface-low: #091328;
+  --surface-high: #0f1930;
+  --surface-highest: #141f38;
 
-  --error: #f87171; /* red-400 */
+  --error: #ff6e84;
 
-  --outline: rgba(255, 255, 255, 0.08);
-  --outline-variant: rgba(255, 255, 255, 0.15);
+  --outline: rgba(163, 170, 196, 0.12);
+  --outline-variant: rgba(163, 170, 196, 0.2);
   
-  --shadow-ambient: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-ambient: 0 20px 40px rgba(0, 0, 0, 0.3);
 
   /* Typography variables */
   --tw-prose-body: var(--foreground);
@@ -120,25 +120,27 @@ body {
 }
 
 .glass {
-  background: rgba(18, 18, 18, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--outline);
 }
+
+/* Theme-aware glass background */
+:root .glass {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass {
+  background: rgba(15, 25, 48, 0.6);
+}
+
+
 
 ::selection {
   background: var(--primary);
   color: white;
 }
 
-/* Specific light mode glass override */
-@media (prefers-color-scheme: light) {
-  :root[class~="dark"] .glass {
-     background: rgba(18, 18, 18, 0.6);
-  }
-  :root:not(.dark) .glass {
-     background: rgba(255, 255, 255, 0.6);
-  }
-}
 /* Skill Icon Enhancements */
 .skill-img {
   max-width: 100%;

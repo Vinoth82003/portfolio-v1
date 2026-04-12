@@ -31,7 +31,7 @@ export default function GlassCard({
       )}
     >
       {/* Optional Inner Glow on top edge for depth */}
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       {children}
     </div>
   );
