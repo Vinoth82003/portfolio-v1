@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail, Twitter, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Footer() {
@@ -28,6 +28,9 @@ export default function Footer() {
           </a>
           <a href="#" className="hover:text-primary transition-colors">
             <Twitter size={20} />
+          </a>
+          <a href="/Vinoth_S_FullStack_Resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" title="Resume">
+            <FileText size={20} />
           </a>
         </div>
 

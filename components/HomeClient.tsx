@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ExternalLink, Code2, Terminal, Cloud, Award, Send, ChevronDown, Briefcase } from "lucide-react";
+import { ArrowRight, ExternalLink, Code2, Terminal, Cloud, Award, Send, ChevronDown, Briefcase, FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlassCard from "@/components/GlassCard";
@@ -62,6 +62,9 @@ export default function HomeClient({
 
             <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-4 pt-6">
               <BuildCTA text="Build Project With Me" href="/contact" />
+              <a href="/Vinoth_S_FullStack_Resume.pdf" target="_blank" rel="noopener noreferrer" className="border border-outline/30 px-8 py-4 rounded-md font-display font-bold uppercase tracking-widest text-sm hover:bg-surface-high hover:border-outline/60 transition-all flex items-center gap-2 group">
+                Download Resume <FileText size={16} className="text-primary" />
+              </a>
               <Link href="/projects" className="border border-outline/30 px-8 py-4 rounded-md font-display font-bold uppercase tracking-widest text-sm hover:bg-surface-high hover:border-outline/60 transition-all flex items-center gap-2 group">
                 View My Work <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>

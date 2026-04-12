@@ -13,6 +13,7 @@ const navLinks = [
   { name: "Projects", href: "/projects" },
   { name: "Case Studies", href: "/case-studies" },
   { name: "Blogs", href: "/blogs" },
+  { name: "Resume", href: "/Vinoth_S_FullStack_Resume.pdf", isExternal: true },
 ];
 
 export default function Navbar() {
@@ -56,6 +57,8 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              target={link.isExternal ? "_blank" : undefined}
+              rel={link.isExternal ? "noopener noreferrer" : undefined}
               className={cn(
                 "font-display text-sm uppercase tracking-widest transition-colors",
                 isActive ? "text-primary font-bold" : "hover:text-primary"
@@ -104,7 +107,9 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={() => link.isExternal ? null : setIsOpen(false)}
+                target={link.isExternal ? "_blank" : undefined}
+                rel={link.isExternal ? "noopener noreferrer" : undefined}
                 className={cn(
                   "font-display text-lg tracking-widest hover:text-primary",
                   isActive && "text-primary font-bold"
