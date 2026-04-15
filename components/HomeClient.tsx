@@ -49,27 +49,48 @@ export default function HomeClient({
           <div className="absolute top-1/4 right-0 w-72 h-72 bg-primary/10 blur-[140px] rounded-full -z-10" />
           <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-secondary/8 blur-[160px] rounded-full -z-10" />
 
-          <motion.div variants={stagger} initial="hidden" animate="visible" className="space-y-8 max-w-4xl">
-            <motion.p variants={fadeUp} custom={0} className="font-display text-primary uppercase tracking-[0.35em] text-xs font-bold">
-              Digital Architect · Full Stack Developer
-            </motion.p>
-            <motion.h1 variants={fadeUp} custom={1} className="font-display text-5xl md:text-7xl lg:text-[8rem] font-black leading-[0.95] tracking-tighter">
-              VINOTH <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-dim to-secondary">S.</span>
-            </motion.h1>
-            <motion.p variants={fadeUp} custom={2} className="max-w-2xl text-lg md:text-xl text-foreground/65 leading-relaxed font-body">
-              Bridging technical mastery with editorial design to craft high-performance digital environments. Specializing in scalable web architecture and cloud integrations.
-            </motion.p>
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 w-full mt-10 md:mt-0">
+            <motion.div variants={stagger} initial="hidden" animate="visible" className="space-y-8 max-w-3xl flex-1 z-10 w-full">
+              <motion.p variants={fadeUp} custom={0} className="font-display text-primary uppercase tracking-[0.35em] text-xs font-bold">
+                Digital Architect · Full Stack Developer
+              </motion.p>
+              <motion.h1 variants={fadeUp} custom={1} className="font-display text-5xl md:text-7xl lg:text-[7rem] font-black leading-[0.95] tracking-tighter">
+                VINOTH <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-dim to-secondary">S.</span>
+              </motion.h1>
+              <motion.p variants={fadeUp} custom={2} className="max-w-2xl text-lg md:text-xl text-foreground/65 leading-relaxed font-body">
+                Bridging technical mastery with editorial design to craft high-performance digital environments. Specializing in scalable web architecture and cloud integrations.
+              </motion.p>
 
-            <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-4 pt-6">
-              <BuildCTA text="Build Project With Me" href="/contact" />
-              <a href="/Vinoth_S_FullStack_Resume.pdf" target="_blank" rel="noopener noreferrer" className="border border-outline/30 px-8 py-4 rounded-md font-display font-bold uppercase tracking-widest text-sm hover:bg-surface-high hover:border-outline/60 transition-all flex items-center gap-2 group">
-                Download Resume <FileText size={16} className="text-primary" />
-              </a>
-              <Link href="/projects" className="border border-outline/30 px-8 py-4 rounded-md font-display font-bold uppercase tracking-widest text-sm hover:bg-surface-high hover:border-outline/60 transition-all flex items-center gap-2 group">
-                View My Work <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-4 pt-6">
+                <BuildCTA text="Build Project" href="/contact" />
+                <a href="/Vinoth_S_FullStack_Resume.pdf" target="_blank" rel="noopener noreferrer" className="border border-outline/30 px-6 py-4 rounded-md font-display font-bold uppercase tracking-widest text-sm hover:bg-surface-high hover:border-outline/60 transition-all flex items-center gap-2 group">
+                  Resume <FileText size={16} className="text-primary" />
+                </a>
+                <Link href="/projects" className="border border-outline/30 px-6 py-4 rounded-md font-display font-bold uppercase tracking-widest text-sm hover:bg-surface-high hover:border-outline/60 transition-all flex items-center gap-2 group">
+                  Work <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8, x: 50 }} 
+              animate={{ opacity: 1, scale: 1, x: 0 }} 
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }} 
+              className="flex-1 relative w-full min-h-[300px] md:min-h-[400px] max-w-[400px] lg:max-w-[550px] mt-8 lg:mt-0"
+            >
+              <div className="relative w-full aspect-square">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 via-secondary/10 to-transparent rounded-full blur-[100px] -z-10" />
+                <Image 
+                  src="/images/hero-image.png" 
+                  alt="Vinoth S 3D Avatar" 
+                  fill 
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_40px_80px_rgba(255,255,255,0.05)]" 
+                  priority 
+                />
+              </div>
+            </motion.div>
+          </div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/30">
             <span className="font-display text-[10px] uppercase tracking-widest">Scroll</span>
