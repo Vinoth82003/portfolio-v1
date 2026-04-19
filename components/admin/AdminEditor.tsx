@@ -119,7 +119,7 @@ export default function AdminEditor({
                 {contentType.toUpperCase()} Mode
               </span>
               <span className="text-[9px] uppercase tracking-widest text-foreground/30 font-bold font-mono">
-                {value.length} characters
+{value?.length ?? 0} characters
               </span>
             </div>
           </GlassCard>

@@ -4,6 +4,16 @@ import connectToDatabase from "@/lib/db/mongodb";
 import Blog from "@/models/Blog";
 import { revalidatePath } from "next/cache";
 import { invalidateCache, getCache, setCache } from "@/lib/redis";
+import { randomUUID } from "crypto";
+
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 export async function getBlogs() {
   const cacheKey = "blogs_list";
@@ -39,8 +49,26 @@ export async function getBlogById(id: string) {
 }
 
 export async function createBlog(data: any) {
+  if (!data.title || !data.content) {
+    throw new Error("Title and content are required");
+  }
+
   await connectToDatabase();
-  const blog = new Blog(data);
+
+  // Populate missing required fields
+  const blogData = {
+    ...data,
+    id: data.id || randomUUID(),
+    slug: data.slug || slugify(data.title),
+    description: data.description || data.excerpt || data.title.substring(0, 160),
+    category: data.category || "Uncategorized",
+    publishedAt: data.publishedAt || new Date(),
+    author: data.author || "Vinoth S",
+    readTime: data.readTime || "5 min read",
+    createdAt: data.createdAt || new Date(),
+  };
+
+  const blog = new Blog(blogData);
   await blog.save();
 
   await invalidateCache("blogs_list");
@@ -53,7 +81,23 @@ export async function createBlog(data: any) {
 
 export async function updateBlog(id: string, data: any) {
   await connectToDatabase();
-  const blog = await Blog.findByIdAndUpdate(id, data, { new: true });
+
+  // For updates, fetch existing to merge/populate
+  const existing = await Blog.findById(id);
+  if (!existing) {
+    throw new Error("Blog not found");
+  }
+
+  const updateData = {
+    ...existing.toObject(),
+    ...data,
+    // Update slug/id only if title changed and provided
+    ...(data.title && !data.slug ? { slug: slugify(data.title) } : {}),
+    description: data.description || data.excerpt || existing.description,
+    ...(data.publishedAt ? {} : { publishedAt: existing.publishedAt }),
+  };
+
+  const blog = await Blog.findByIdAndUpdate(id, updateData, { new: true });
 
   await invalidateCache("blogs_list");
   await invalidateCache(`blog_${id}`);

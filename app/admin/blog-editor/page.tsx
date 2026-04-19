@@ -1,5 +1,7 @@
 "use client";
 
+import { IBlog } from "@/interfaces/blogs";
+
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,22 +16,15 @@ import {
   Clock,
   Calendar,
   Search,
-  Filter
+  Filter,
+  Hash,
+  Tag
 } from "lucide-react";
 import GlassCard from "@/components/GlassCard";
 import AdminEditor from "@/components/admin/AdminEditor";
 import toast from "react-hot-toast";
 
-interface Blog {
-  _id?: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  readTime: string;
-  image: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
+
 
 import { 
   getBlogs, 
@@ -43,8 +38,8 @@ function BlogEditorInner() {
   const router = useRouter();
   const editId = searchParams.get("id");
   
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [form, setForm] = useState<Blog>({ 
+const [blogs, setBlogs] = useState<IBlog[]>([]);
+const [form, setForm] = useState<Partial<IBlog>>({ 
     title: "", 
     excerpt: "", 
     content: "", 
@@ -126,7 +121,7 @@ function BlogEditorInner() {
 
   const filteredBlogs = blogs.filter(b => 
     b.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    b.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+    (b.excerpt ?? "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -328,7 +323,7 @@ function BlogEditorInner() {
                 <div className="space-y-3">
                   <AdminEditor 
                     label="Article Content"
-                    value={form.content}
+                    value={form.content ?? ""}
                     onChange={(val) => setForm(f => ({ ...f, content: val }))}
                     id="blog-main-editor"
                   />

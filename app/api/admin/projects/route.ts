@@ -11,7 +11,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   await connectToDatabase();
   const body = await req.json();
-  if (!body.title || !body.content) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+  if (!body.title || !body.description) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   const project = await Project.create(body);
   return NextResponse.json({ project }, { status: 201 });
 }
