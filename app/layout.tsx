@@ -6,6 +6,10 @@ import { Toaster } from "react-hot-toast";
 import ParticleBackground from "@/components/ParticleBackground";
 import ScrollToTop from "@/components/ScrollToTop";
 
+import { Suspense } from "react";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
+import LoadingBar from "@/components/ui/LoadingBar";
+
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
@@ -39,6 +43,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Suspense fallback={null}>
+            <LoadingBar />
+          </Suspense>
+          <AnalyticsTracker />
           <ScrollToTop />
           <ParticleBackground />
           {children}

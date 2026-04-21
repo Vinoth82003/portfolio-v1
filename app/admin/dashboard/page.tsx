@@ -10,16 +10,17 @@ import GlassCard from "@/components/GlassCard";
 import { MessageSquare, FolderKanban, Briefcase, Code2, TrendingUp, BookOpen, Search } from "lucide-react";
 import { StatCardSkeleton } from "@/components/admin/AdminSkeleton";
 
+import EngagementCharts from "@/components/admin/EngagementCharts";
+
 async function StatsContent() {
   await connectToDatabase();
   
-  const [projectCount, blogCount, caseStudyCount, messageCount, unreadMessages, experienceCount, skillCount] = await Promise.all([
+  const [projectCount, blogCount, caseStudyCount, messageCount, unreadMessages, skillCount] = await Promise.all([
     Project.countDocuments(),
     Blog.countDocuments(),
     CaseStudy.countDocuments(),
     ContactMessage.countDocuments(),
     ContactMessage.countDocuments({ status: "UNREAD" }),
-    Experience.countDocuments(),
     Skill.countDocuments(),
   ]);
 
@@ -75,16 +76,19 @@ export default function AdminDashboard() {
         <StatsContent />
       </Suspense>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <GlassCard className="h-[400px]">
-          <h3 className="font-display font-bold text-lg mb-6">Recent Activity</h3>
-          <div className="flex flex-col items-center justify-center h-full text-foreground/30">
-            <TrendingUp size={48} className="mb-4 opacity-10" />
-            <p className="font-display text-xs uppercase tracking-widest">Coming Soon: Activity Timeline</p>
-          </div>
-        </GlassCard>
+      <div className="space-y-8">
+        <header>
+          <h2 className="font-display text-2xl font-bold tracking-tight mb-2 text-primary">User Engagement</h2>
+          <p className="text-foreground/50 font-body text-sm">Insights into how users are interacting with your portfolio.</p>
+        </header>
+        
+        <Suspense fallback={<div className="h-[400px] flex items-center justify-center bg-surface-low rounded-3xl border border-outline/10">Loading insights...</div>}>
+          <EngagementCharts />
+        </Suspense>
+      </div>
 
-        <GlassCard className="h-[400px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <GlassCard className="lg:col-span-1">
           <h3 className="font-display font-bold text-lg mb-6">System Health</h3>
           <div className="space-y-6">
             <div className="flex items-center justify-between">
