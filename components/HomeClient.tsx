@@ -25,10 +25,12 @@ const stagger = {
 
 export default function HomeClient({ 
   initialProjects, 
+  initialCaseStudies,
   initialExperiences, 
   initialSkills 
 }: { 
   initialProjects: any[], 
+  initialCaseStudies: any[],
   initialExperiences: any[], 
   initialSkills: any[] 
 }) {
@@ -153,6 +155,48 @@ export default function HomeClient({
             ))}
           </div>
         </section>
+
+        {/* Case Studies Section */}
+        {initialCaseStudies.length > 0 && (
+          <section id="case-studies" className="py-28 px-6 md:px-16 bg-surface-low/30">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                  <p className="font-display text-secondary uppercase tracking-[0.3em] text-xs font-bold mb-4">Deep Dives</p>
+                  <h2 className="font-display text-4xl md:text-6xl font-black tracking-tighter">Technical <span className="text-foreground/20">Case Studies</span></h2>
+                </div>
+                <Link href="/case-studies" className="font-display text-sm font-bold uppercase tracking-widest hover:text-secondary flex items-center gap-2 transition-colors group">
+                  Knowledge Base <ExternalLink size={15} />
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {initialCaseStudies.slice(0, 3).map((cs, i) => (
+                  <motion.div key={cs._id} custom={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                    <Link href={`/case-studies/${cs.id}`}>
+                      <GlassCard hoverEffect glowColor="secondary" className="h-full flex flex-col p-8 border-outline/10 group-hover:border-secondary/30 transition-all bg-background">
+                        <div className="flex items-center gap-3 mb-6">
+                          <span className="bg-secondary/10 text-secondary font-display font-bold text-[9px] uppercase tracking-widest px-3 py-1 rounded border border-secondary/20">
+                            {cs.category}
+                          </span>
+                        </div>
+                        <h3 className="font-display text-2xl font-black tracking-tight mb-4 leading-snug group-hover:text-secondary transition-colors line-clamp-2">{cs.title}</h3>
+                        <p className="font-body text-sm text-foreground/50 leading-relaxed mb-8 flex-1 line-clamp-3">{cs.description}</p>
+                        <div className="flex items-center justify-between border-t border-outline/10 pt-6">
+                          <div className="font-display font-bold text-[8px] uppercase tracking-widest text-foreground/30">
+                            {cs.readTime}
+                          </div>
+                          <div className="flex items-center gap-1 font-display font-black text-[9px] uppercase tracking-widest text-secondary">
+                            View Study <ArrowRight size={12} />
+                          </div>
+                        </div>
+                      </GlassCard>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Skills Section */}
         <section id="skills" className="py-28 px-6 md:px-16 bg-surface-high relative overflow-hidden">

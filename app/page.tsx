@@ -1,4 +1,5 @@
 import { getProjects } from "@/lib/actions/projects";
+import { getCaseStudies } from "@/lib/actions/case-studies";
 import { getExperiences } from "@/lib/actions/experience";
 import { getSkills } from "@/lib/actions/skills";
 import HomeClient from "@/components/HomeClient";
@@ -15,8 +16,9 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const [projects, experiences, skills] = await Promise.all([
-    getProjects(),
+  const [projects, caseStudies, experiences, skills] = await Promise.all([
+    getProjects(true),
+    getCaseStudies(true),
     getExperiences(),
     getSkills(),
   ]);
@@ -24,6 +26,7 @@ export default async function Home() {
   return (
     <HomeClient 
       initialProjects={JSON.parse(JSON.stringify(projects))}
+      initialCaseStudies={JSON.parse(JSON.stringify(caseStudies))}
       initialExperiences={JSON.parse(JSON.stringify(experiences))}
       initialSkills={JSON.parse(JSON.stringify(skills))}
     />

@@ -102,6 +102,7 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
     try {
       if (currentProject) {
         const updated = await updateProject(currentProject._id, data);
+        if (!updated) throw new Error("Update failed");
         setProjects(projects.map(p => p._id === currentProject._id ? updated : p));
         toast.success("Project updated successfully");
       } else {
@@ -144,7 +145,7 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((proj) => (
+        {projects.filter(p => p !== null).map((proj) => (
           <GlassCard key={proj._id} hoverEffect glowColor="primary" className="group flex flex-col h-full border-outline/10 hover:border-primary/20 transition-all duration-500 p-0 overflow-hidden">
             <div className="relative h-56 w-full overflow-hidden bg-surface-high">
               <Image 
