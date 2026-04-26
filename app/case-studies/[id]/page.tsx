@@ -12,24 +12,24 @@ import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
 import { getCaseStudies, getCaseStudyById } from "@/lib/actions/case-studies";
 
 export async function generateStaticParams() {
-  const caseStudies = await getCaseStudies();
+  const caseStudies = await getCaseStudies(true);
   return caseStudies.map((cs: any) => ({ id: cs.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const cs = await getCaseStudyById(id);
+  const cs = await getCaseStudyById(id, true);
   if (!cs) return { title: "Project Not Found" };
   return { title: `${cs.title} | Vinoth S`, description: cs.description };
 }
 
 export default async function CaseStudyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const cs = await getCaseStudyById(id) as any;
+  const cs = await getCaseStudyById(id, true) as any;
   if (!cs) notFound();
 
   // Fetch all to find related
-  const allStudies = await getCaseStudies();
+  const allStudies = await getCaseStudies(true);
   const related = cs.relatedIds ? cs.relatedIds.map((rid: string) => allStudies.find((c: any) => c.id === rid)).filter((c: any): c is NonNullable<any> => !!c) : [];
 
   return (

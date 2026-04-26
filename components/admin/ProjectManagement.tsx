@@ -33,6 +33,7 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
     challenge: "",
     solution: "",
     outcome: "",
+    status: "draft" as "draft" | "published",
   });
 
   const resetForm = () => {
@@ -50,6 +51,7 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
       challenge: "",
       solution: "",
       outcome: "",
+      status: "draft",
     });
     setCurrentProject(null);
     setIsEditing(false);
@@ -71,6 +73,7 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
       challenge: project.challenge || "",
       solution: project.solution || "",
       outcome: project.outcome || "",
+      status: project.status || "draft",
     });
     setIsEditing(true);
   };
@@ -154,6 +157,9 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
               <div className="absolute top-4 left-4">
                  <span className="px-3 py-1.5 rounded bg-background/60 backdrop-blur-md border border-outline/10 text-[9px] font-display font-black uppercase tracking-widest text-primary">
                    {proj.type}
+                 </span>
+                 <span className={`ml-2 px-3 py-1.5 rounded text-[8px] font-display font-black uppercase tracking-widest backdrop-blur-md border ${proj.status === 'published' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}>
+                    {proj.status}
                  </span>
               </div>
             </div>
@@ -332,6 +338,21 @@ export default function ProjectManagement({ initialProjects }: { initialProjects
                         onUpload={url => setFormData({ ...formData, image: url })}
                       />
                     </div>
+                  </div>
+                  
+                  {/* Status Toggle */}
+                  <div className="p-6 rounded-2xl bg-surface-high/20 border border-outline/10 flex items-center justify-between group">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-display font-bold uppercase tracking-widest text-foreground/40 group-hover:text-primary transition-colors">Publication Status</p>
+                      <p className="text-[9px] text-foreground/30 font-body">Should this be live in the public directory?</p>
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={() => setFormData({ ...formData, status: formData.status === 'published' ? 'draft' : 'published' })}
+                      className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${formData.status === 'published' ? 'bg-primary' : 'bg-surface-high'}`}
+                    >
+                      <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${formData.status === 'published' ? 'translate-x-8' : 'translate-x-1'}`} />
+                    </button>
                   </div>
                   
                   {/* Decorative Elements */}

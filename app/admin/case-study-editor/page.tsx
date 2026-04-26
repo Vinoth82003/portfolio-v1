@@ -47,6 +47,7 @@ interface CaseStudy {
   sections: Section[];
   outcome: string[];
   relatedIds: string[];
+  status: "draft" | "published";
 }
 
 function CaseStudyEditorInner() {
@@ -65,7 +66,8 @@ function CaseStudyEditorInner() {
     heroImage: "",
     sections: [{ heading: "Introduction", content: "" }],
     outcome: [],
-    relatedIds: []
+    relatedIds: [],
+    status: "draft"
   });
   const [saving, setSaving] = useState(false);
   const [view, setView] = useState<"list" | "editor">("list");
@@ -108,7 +110,8 @@ function CaseStudyEditorInner() {
         heroImage: "",
         sections: [{ heading: "Introduction", content: "" }],
         outcome: [],
-        relatedIds: []
+        relatedIds: [],
+        status: "draft"
       });
       setView("editor");
     } else {
@@ -235,7 +238,8 @@ function CaseStudyEditorInner() {
                 heroImage: "",
                 sections: [{ heading: "Introduction", content: "" }],
                 outcome: [],
-                relatedIds: []
+                relatedIds: [],
+                status: "draft"
               });
               setView("editor");
               router.push("/admin/case-study-editor?new=true", { scroll: false });
@@ -268,6 +272,7 @@ function CaseStudyEditorInner() {
               </p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="font-display text-[8px] px-2 py-0.5 rounded bg-surface-highest/50 text-foreground/40 uppercase tracking-widest font-bold border border-outline/5 truncate">{s.category || "Uncategorized"}</span>
+                <span className={`ml-2 font-display text-[8px] px-2 py-0.5 rounded uppercase tracking-widest font-bold border ${s.status === 'published' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}>{s.status}</span>
               </div>
             </button>
           ))}
@@ -313,7 +318,10 @@ function CaseStudyEditorInner() {
                   </div>
                   
                   <div className="flex-1 min-w-0 flex flex-col justify-center py-2">
-                    <p className="font-display text-[10px] text-secondary font-black uppercase tracking-widest mb-3 bg-secondary/10 inline-block px-3 py-1 rounded w-fit">{s.category}</p>
+                    <div className="flex items-center gap-2 mb-3">
+                      <p className="font-display text-[10px] text-secondary font-black uppercase tracking-widest bg-secondary/10 inline-block px-3 py-1 rounded w-fit">{s.category}</p>
+                      <p className={`font-display text-[10px] font-black uppercase tracking-widest inline-block px-3 py-1 rounded w-fit ${s.status === 'published' ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'}`}>{s.status}</p>
+                    </div>
                     <h3 className="font-display font-black text-3xl tracking-tight group-hover:text-secondary transition-colors truncate mb-3">{s.title}</h3>
                     <p className="font-body text-foreground/50 leading-relaxed line-clamp-2 pr-4">{s.description}</p>
                     
@@ -520,6 +528,21 @@ function CaseStudyEditorInner() {
                   <GlassCard hoverEffect={false} className="p-8 border-outline/10 shadow-lg">
                     <h4 className="font-display font-black text-lg mb-6 flex items-center gap-2 text-foreground/80"><ImageIcon size={16} className="text-secondary" /> Visual Identity</h4>
                     
+                    {/* Status Toggle */}
+                    <div className="p-5 rounded-xl bg-surface-high/20 border border-outline/10 flex items-center justify-between group mb-8">
+                      <div className="space-y-0.5">
+                        <p className="text-[10px] font-display font-bold uppercase tracking-widest text-foreground/40 group-hover:text-secondary transition-colors">Publication</p>
+                        <p className="text-[8px] text-foreground/30 font-body">Go live in library?</p>
+                      </div>
+                      <button 
+                        type="button"
+                        onClick={() => setForm({ ...form, status: form.status === 'published' ? 'draft' : 'published' })}
+                        className={`relative inline-flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${form.status === 'published' ? 'bg-secondary' : 'bg-surface-high'}`}
+                      >
+                        <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${form.status === 'published' ? 'translate-x-7' : 'translate-x-1'}`} />
+                      </button>
+                    </div>
+
                     <div className="space-y-8">
                       <div>
                         <label className="flex items-center justify-between text-[10px] font-display font-bold uppercase tracking-[0.2em] text-foreground/40 mb-3">

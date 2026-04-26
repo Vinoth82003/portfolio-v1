@@ -4,17 +4,21 @@ import connectToDatabase from "@/lib/db/mongodb";
 import CaseStudy from "@/models/CaseStudy";
 import { revalidatePath } from "next/cache";
 
-export async function getCaseStudies() {
+export async function getCaseStudies(onlyPublished = false) {
   await connectToDatabase();
-  const res = await CaseStudy.find().sort({ createdAt: -1 }).lean();
+  const query = onlyPublished ? { status: "published" } : {};
+  const res = await CaseStudy.find(query).sort({ createdAt: -1 }).lean();
   return JSON.parse(JSON.stringify(res));
 }
 
-export async function getCaseStudyById(id: string) {
+export async function getCaseStudyById(id: string, onlyPublished = false) {
   await connectToDatabase();
-  const doc = await CaseStudy.findOne({
+  const query: any = {
     $or: [{ id: id }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : undefined }]
-  }).lean();
+  };
+  if (onlyPublished) query.status = "published";
+  
+  const doc = await CaseStudy.findOne(query).lean();
   return doc ? JSON.parse(JSON.stringify(doc)) : null;
 }
 

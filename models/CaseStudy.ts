@@ -17,6 +17,7 @@ export interface ICaseStudy extends Document {
   sections: ICaseStudySection[];
   outcome: string[];
   relatedIds: string[];
+  status: "draft" | "published";
   createdAt: Date;
 }
 
@@ -36,6 +37,7 @@ const CaseStudySchema: Schema = new Schema({
   }],
   outcome: [{ type: String }],
   relatedIds: [{ type: String }],
+  status: { type: String, enum: ["draft", "published"], default: "draft" },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 import { getProjects } from "@/lib/actions/projects";
 
 export default async function ProjectsPage() {
-  const PROJECTS = await getProjects() as any[];
+  const PROJECTS = await getProjects(true) as any[];
 
   return (
     <div className="min-h-screen bg-background">

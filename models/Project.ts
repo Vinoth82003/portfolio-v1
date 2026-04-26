@@ -17,6 +17,7 @@ export interface IProject extends Document {
   solution?: string;
   outcome?: string;
   gallery?: string[];
+  status: "draft" | "published";
   createdAt: Date;
 }
 
@@ -37,6 +38,7 @@ const ProjectSchema: Schema = new Schema({
   solution: { type: String },
   outcome: { type: String },
   gallery: { type: [String] },
+  status: { type: String, enum: ["draft", "published"], default: "draft" },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -13,20 +13,20 @@ import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
 import { getProjectById, getProjects } from "@/lib/actions/projects";
 
 export async function generateStaticParams() {
-  const projects = await getProjects();
-  return projects.map((proj: any) => ({ id: proj._id.toString() }));
+  const projects = await getProjects(true);
+  return projects.map((proj: any) => ({ id: proj.id || proj._id.toString() }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const proj = await getProjectById(id);
+  const proj = await getProjectById(id, true);
   if (!proj) return { title: "Project Not Found" };
   return { title: `${proj.title} | Vinoth S`, description: proj.description };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const proj = await getProjectById(id);
+  const proj = await getProjectById(id, true);
   if (!proj) notFound();
 
   return (

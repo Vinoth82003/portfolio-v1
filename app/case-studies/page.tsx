@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 import { getCaseStudies } from "@/lib/actions/case-studies";
 
 export default async function CaseStudiesPage() {
-  const caseStudies = await getCaseStudies() as any[];
+  const caseStudies = await getCaseStudies(true) as any[];
   
   if (caseStudies.length === 0) {
     return (
