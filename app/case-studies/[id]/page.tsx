@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlassCard from "@/components/GlassCard";
 import BuildCTA from "@/components/BuildCTA";
+import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
+
 import { getCaseStudies, getCaseStudyById } from "@/lib/actions/case-studies";
 
 export async function generateStaticParams() {
@@ -100,8 +102,8 @@ export default async function CaseStudyDetailPage({ params }: { params: Promise<
                        <h2 className="font-display text-3xl md:text-4xl font-black tracking-tighter text-foreground/90">{sec.heading}</h2>
                     </div>
                     
-                    <div className="prose prose-invert prose-lg max-w-none font-body text-foreground/75 leading-[1.8] prose-p:mb-6 prose-a:text-secondary prose-a:no-underline hover:prose-a:text-secondary-hover hover:prose-a:underline prose-strong:text-foreground prose-strong:font-bold prose-headings:font-display prose-headings:font-bold prose-li:marker:text-secondary">
-                      <div dangerouslySetInnerHTML={{ __html: sec.content }} />
+                    <div className="max-w-none">
+                      <MarkdownRenderer content={sec.content} />
                     </div>
 
                     {sec.code && (

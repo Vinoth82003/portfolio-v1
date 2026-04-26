@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GlassCard from "@/components/GlassCard";
 import BuildCTA from "@/components/BuildCTA";
+import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
+
 
 import { getProjectById, getProjects } from "@/lib/actions/projects";
 
@@ -106,8 +108,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                      </div>
                      <h2 className="font-display text-[11px] uppercase tracking-[0.3em] text-foreground/50 font-black">Architecture Overview</h2>
                   </div>
-                  <div className="prose prose-invert prose-lg max-w-none font-body text-foreground/75 leading-relaxed prose-headings:font-display prose-headings:font-black prose-a:text-primary hover:prose-a:text-primary-hover prose-strong:text-foreground">
-                    <div dangerouslySetInnerHTML={{ __html: proj.overview }} />
+                  <div className="max-w-none">
+                    <MarkdownRenderer content={proj.overview} />
                   </div>
                 </section>
               )}
@@ -122,8 +124,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                      </div>
                      <h2 className="font-display text-[11px] uppercase tracking-[0.3em] text-foreground/50 font-black">The Challenge</h2>
                   </div>
-                  <div className="prose prose-invert prose-lg max-w-none font-body text-foreground/75 leading-relaxed prose-headings:font-display prose-headings:font-black prose-a:text-primary hover:prose-a:text-primary-hover prose-strong:text-foreground/90">
-                    <div dangerouslySetInnerHTML={{ __html: proj.challenge }} />
+                  <div className="max-w-none">
+                    <MarkdownRenderer content={proj.challenge} />
                   </div>
                 </section>
               )}
@@ -141,8 +143,8 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                        <p className="font-display text-2xl font-black text-foreground">The Solution</p>
                      </div>
                   </div>
-                  <div className="prose prose-invert prose-lg max-w-none font-body text-foreground/80 leading-relaxed prose-headings:font-display prose-headings:font-black prose-headings:text-foreground prose-p:text-foreground/70 prose-a:text-primary prose-strong:text-foreground relative z-10 selection:bg-primary/30">
-                    <div dangerouslySetInnerHTML={{ __html: proj.solution }} />
+                  <div className="max-w-none relative z-10 selection:bg-primary/30">
+                    <MarkdownRenderer content={proj.solution} />
                   </div>
                 </GlassCard>
               )}
@@ -158,7 +160,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                      <h2 className="font-display text-[11px] uppercase tracking-[0.3em] text-foreground/50 font-black">Business Impact</h2>
                   </div>
                   <div className="text-xl md:text-2xl font-display font-black leading-snug text-foreground/90 pl-6 border-l-4 border-foreground/10 py-2">
-                    <div dangerouslySetInnerHTML={{ __html: proj.outcome }} />
+                    <MarkdownRenderer content={proj.outcome} />
                   </div>
                 </section>
               )}
